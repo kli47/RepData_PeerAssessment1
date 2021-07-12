@@ -101,12 +101,14 @@ d <- c %>% group_by(date) %>% mutate(total.steps = sum(steps)) %>% select(date, 
 plot2 <- ggplot(d, aes(x = date,  y = total.steps)) + geom_bar(stat = "identity", fill="steelblue") + labs(title="Histogram of Total Steps (Missing Values Filled In)", x = "Date", y = "Total Steps") + theme_minimal()
 plot2
 ```
+
 Once again using the summary feature to calculate mean and median of total steps
 ```{r}
 e <- summary(d)
 ```
 
 Now comparing the two summaries
+
 With missing values removed:
 ```{r}
 j

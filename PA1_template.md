@@ -33,6 +33,23 @@ For this part of the assignment, you can ignore the missing values in the datase
 ```r
 library(dplyr)
 ```
+
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
 Table of total number of steps per day
 
 ```r
@@ -205,6 +222,7 @@ plot2
 ```
 
 ![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png)
+
 Once again using the summary feature to calculate mean and median of total steps
 
 ```r
@@ -212,6 +230,7 @@ e <- summary(d)
 ```
 
 Now comparing the two summaries
+
 With missing values removed:
 
 ```r
@@ -249,6 +268,20 @@ We can compare the two graphs of total steps
 
 ```r
 library(gridExtra)
+```
+
+```
+## 
+## Attaching package: 'gridExtra'
+```
+
+```
+## The following object is masked from 'package:dplyr':
+## 
+##     combine
+```
+
+```r
 grid.arrange(plot1, plot2, ncol = 1)
 ```
 
