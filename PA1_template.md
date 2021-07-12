@@ -32,26 +32,6 @@ For this part of the assignment, you can ignore the missing values in the datase
 
 ```r
 library(dplyr)
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-```
-
-```
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 y <- z %>% group_by(date) %>% mutate(total.steps = sum(steps)) %>% select(date, total.steps) %>% distinct %>% print(n = Inf)
 ```
 
@@ -120,7 +100,7 @@ y <- z %>% group_by(date) %>% mutate(total.steps = sum(steps)) %>% select(date, 
 
 ```r
 library(ggplot2)
-plot1 <- ggplot(y, aes(x=total.steps)) + geom_histogram(color="darkblue", fill="lightblue", binwidth = 200) + labs(title="Histogram of Total Steps (Excluding Missing Values)", x="Total Steps", y = "Count")
+plot1 <- ggplot(y, aes(x = date,  y = total.steps)) + geom_bar(stat = "identity", fill="steelblue") + labs(title="Histogram of Total Steps (Excluding Missing Values)", x = "Date", y = "Total Steps") + theme_minimal()
 plot1
 ```
 
@@ -260,7 +240,7 @@ c <- dataset %>% inner_join(b, by = "interval") %>% mutate(steps = coalesce(step
 ```r
 d <- c %>% group_by(date) %>% mutate(total.steps = sum(steps)) %>% select(total.steps, date) %>% distinct
 
-plot2 <- ggplot(d, aes(x=total.steps)) + geom_histogram(color="darkblue", fill="lightblue", binwidth = 200) + labs(title="Histogram of Total Steps (Missing Values Filled In)",x="Total Steps", y = "Count")
+plot2 <- ggplot(d, aes(x = date,  y = total.steps)) + geom_bar(stat = "identity", fill="steelblue") + labs(title="Histogram of Total Steps (Missing Values Filled In)", x = "Date", y = "Total Steps") + theme_minimal()
 plot2
 ```
 
@@ -424,34 +404,10 @@ We can compare the two graphs of total steps
 
 ```r
 library(gridExtra)
-```
-
-```
-## 
-## Attaching package: 'gridExtra'
-```
-
-```
-## The following object is masked from 'package:dplyr':
-## 
-##     combine
-```
-
-```r
 grid.arrange(plot1, plot2, ncol = 1)
 ```
 
 ![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png)
-
-Note the different y axis ranges. We can match the y axis scale for a better comparison.
-
-
-```r
-plot3 <- ggplot(y, aes(x=total.steps)) + geom_histogram(color="darkblue", fill="lightblue", binwidth = 200) + labs(title="Histogram of Total Steps (Excluding Missing Values)", x="Total Steps", y = "Count") + ylim(0, 10)
-grid.arrange(plot3, plot2, ncol = 1)
-```
-
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12-1.png)
 
 Filling in the missing values created a spike at 10766.19 steps. This so happens to also be the mean of total steps. 
 
@@ -492,4 +448,4 @@ library(lattice)
 xyplot(average.steps ~ interval | day, data = k, layout = c(1,2), type = "l", main = "Weekday vs. Weekend Total Steps per 5-Minute Interval", xlab = "5-Minute Intervals", ylab = "Steps")
 ```
 
-![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15-1.png)
+![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14-1.png)
