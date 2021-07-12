@@ -29,6 +29,9 @@ For this part of the assignment, you can ignore the missing values in the datase
 
 ```{r}
 library(dplyr)
+```
+Table of total number of steps per day
+```{r}
 y <- z %>% group_by(date) %>% mutate(total.steps = sum(steps)) %>% select(date, total.steps) %>% distinct %>% print(n = Inf)
 ```
 
@@ -42,9 +45,14 @@ plot1
 
 ### 3. Calculate and report the mean and median of the total number of steps taken per day
 
+Utilizing the summary feature.
+
 ```{r}
-j <- z %>% group_by(date) %>% summarize(median = median(steps), mean = mean(steps)) %>% print(n = Inf)
+j <- summary(y)
+j
 ```
+The mean amount of total steps is 10766
+The median amount of total steps is 10765
 
 ## What is the average daily activity pattern?
 
@@ -88,32 +96,35 @@ c <- dataset %>% inner_join(b, by = "interval") %>% mutate(steps = coalesce(step
 ### 4. Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
 ```{r}
-d <- c %>% group_by(date) %>% mutate(total.steps = sum(steps)) %>% select(total.steps, date) %>% distinct
+d <- c %>% group_by(date) %>% mutate(total.steps = sum(steps)) %>% select(date, total.steps) %>% distinct
 
 plot2 <- ggplot(d, aes(x = date,  y = total.steps)) + geom_bar(stat = "identity", fill="steelblue") + labs(title="Histogram of Total Steps (Missing Values Filled In)", x = "Date", y = "Total Steps") + theme_minimal()
 plot2
-
-c %>% group_by(date) %>% summarize(median = median(steps), mean = mean(steps)) %>% print(n = Inf)
-
-e <- c %>% group_by(date) %>% summarize(median = median(steps), mean = mean(steps)) %>% rename(median.filled = median, mean.filled = mean)
-
-compare <- full_join(e, j)
-print(compare, n = Inf)
+```
+Once again using the summary feature to calculate mean and median of total steps
+```{r}
+e <- summary(d)
 ```
 
-The median and means do not differ as the missing values were only filled in for the rows that had NA values, i.e., the dates without missing values still retain the same median and mean. 
+Now comparing the two summaries
+With missing values removed:
+```{r}
+j
+```
+With missing values filled in:
+```{r}
+e
+```
+
+The median and means do not differ grossly. There is a similar mean value and median value is only 1 step off.
 
 We can compare the two graphs of total steps
 ```{r}
 library(gridExtra)
 grid.arrange(plot1, plot2, ncol = 1)
 ```
-
-Filling in the missing values created a spike at 10766.19 steps. This so happens to also be the mean of total steps. 
-```{r}
-mean(d$total.steps)
-```
-This makes sense given that we filled in missing values with the mean for that 5-minute interval (as averaged across all days). 
+  
+Grossly, filling in the missing values added some bars in the October and November. Did not change the overal shape of our histogram.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
